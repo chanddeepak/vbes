@@ -1,13 +1,3 @@
-// const express = require('express');
-// var router = express.Router();
-
-// /* GET users listing. */
-// router.get('/', function(req, res) {
-//   res.send('respond with a resource');
-// });
-
-// module.exports = router;
-
 const express = require('express');
 const router = express.Router();
 const firebase = require('../initFirebase');
@@ -26,6 +16,7 @@ router.post('/send', async (req, res) => {
   //const { title, subject, body, recipient, sender } = req.body;
 
   //console.log(recipient);
+  console.log('Hello');
 
   const survey = {
     title: 'Test',
