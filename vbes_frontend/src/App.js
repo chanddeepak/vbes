@@ -6,20 +6,20 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
+import ComposeEmail from './components/email/ComposeEmail';
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Navbar />
-        <div className="container">
-          {' '}
-          <Route exact path="/" component={Landing} />
+      <div className="container">
+        <Router>
+          <Navbar /> <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/dashboard" component={Dashboard} />
-        </div>
-      </Router>
+          <Route exact path="/compose" component={ComposeEmail} />
+        </Router>
+      </div>
     );
   }
 }

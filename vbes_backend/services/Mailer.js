@@ -3,14 +3,16 @@ const helper = sendgrid.mail;
 const keys = require('../config/keys');
 
 class Mailer extends helper.Mail {
-  constructor({ subject, recipient, sender }, content) {
+  constructor({ subject, to, from }, content) {
     super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
-    this.from_email = new helper.Email(sender);
+    this.from_email = new helper.Email(from);
+    //console.log(this.from_email);
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
-    this.recipient = new helper.Email(recipient);
+    this.recipient = new helper.Email(to);
+    //console.log(this.recipient);
 
     this.addContent(this.body);
     //this.addClickTracking();

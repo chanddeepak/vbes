@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import { listen, speak, stopListening } from '../../actions/SpeechActions';
 import { login } from '../../actions/UserActions';
 
 class Login extends Component {
@@ -7,29 +9,77 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      errors: {},
+      listening: false
     };
+
+    this.handleListen = this.handleListen.bind(this);
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  // componentWillUnmount() {
+  //   stopListening().then(() => {
+  //     console.log('stop');
+  //   });
+  // }
+
+  componentWillMount() {
+    // stopListening().then(() => {
+    //   console.log('stop');
+    // });
+    this.setState(
+      {
+        listening: !this.state.listening
+      },
+      this.handleListen
+    );
+  }
+
+  handleListen() {
+    //debugger;
+    console.log('listening?', this.state.listening);
+    speak('Login');
+
+    if (this.state.listening) {
+      speak('Give your email id');
+      listen().then(result => {
+        this.setState({ email: result });
+        stopListening().then(() => {
+          speak('Give your password');
+          listen().then(result => {
+            this.setState({ password: result });
+            stopListening().then(() => {
+              this.onSubmit();
+            });
+          });
+        });
+      });
+    } else {
+      stopListening();
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit() {
+    // e.preventDefault();
 
     const user = {
       email: this.state.email,
       password: this.state.password
     };
 
-    login(user).then(res => {
-      if (res) {
-        this.props.history.push(`/profile`);
-      }
-    });
+    login(user)
+      .then(res => {
+        if (res) {
+          speak('Login Successfully');
+          this.props.history.push(`/compose`);
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   render() {

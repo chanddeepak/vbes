@@ -1,19 +1,16 @@
 import axios from 'axios';
 
-export const register = newUser => {
-  return axios.post('users/register', newUser).then(response => {
-    console.log('Registered');
+export const sendEmail = newEmail => {
+  return axios.post('email/send', newEmail).then(response => {
+    return response;
   });
 };
 
-export const login = user => {
-  // debugger;
+export const getSentEmails = user => {
   return axios
-    .post('users/login', user)
-    .then(response => {
-      const { token } = response.data;
-      localStorage.setItem('usertoken', token);
-      return token;
+    .get('email/sentEmail', user)
+    .then(res => {
+      return res;
     })
     .catch(err => {
       console.log(err);
