@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Speech from 'react-speech';
 
 import { listen, speak, stopListening } from '../../actions/SpeechActions';
 // import { start } from 'repl';
